@@ -1,40 +1,113 @@
 #include <stdio.h>
 
-// Desafio Batalha Naval - MateCheck
-// Este código inicial serve como base para o desenvolvimento do sistema de Batalha Naval.
-// Siga os comentários para implementar cada parte do desafio.
+#define SIZE 10           // Tamanho do tabuleiro (10x10)
+#define CONE_LIN 3        // Número de linhas do padrão Cone
+#define CONE_COL 5        // Número de colunas do padrão Cone
+#define OCTAEDRO_LIN 3    // Número de linhas do padrão Octaedro
+#define OCTAEDRO_COL 5    // Número de colunas do padrão Octaedro
+#define CRUZ_LIN 3        // Número de linhas do padrão Cruz
+#define CRUZ_COL 5        // Número de colunas do padrão Cruz
+
+// Função para inicializar a matriz com zeros
+void inicializarMatriz(int matriz[SIZE][SIZE]) {
+    for (int i = 0; i < SIZE; i++) {            
+        for (int j = 0; j < SIZE; j++) {        
+            matriz[i][j] = 0;                    
+        }
+    }
+}
+
+// Função para imprimir o tabuleiro
+void imprimirMatriz(int matriz[SIZE][SIZE]) {
+    for (int i = 0; i < SIZE; i++) {             
+        for (int j = 0; j < SIZE; j++) {         
+            printf("%d ", matriz[i][j]);         
+        }
+        printf("\n");                            
+    }
+    printf("\n");                               
+}
+
+void desenharCone(int matriz[SIZE][SIZE], int centro_i, int centro_j) {
+    // Percorre todas as posições do tabuleiro
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            // Calcula a diferença em relação ao centro escolhido
+            int delta_i = i - centro_i;
+            int delta_j = j - centro_j;
+            
+            // Verifica se a posição está dentro do padrão Cone
+            if (delta_i == -1 && delta_j == 0) {
+                matriz[i][j] = 1;
+            } else if (delta_i == 0 && (delta_j >= -1 && delta_j <= 1)) {
+                matriz[i][j] = 1;
+            } else if (delta_i == 1 && (delta_j >= -2 && delta_j <= 2)) {
+                matriz[i][j] = 1;
+            }
+        }
+    }
+}
+
+void desenharOctaedro(int matriz[SIZE][SIZE], int centro_i, int centro_j) {
+    // Percorre todas as posições do tabuleiro
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            int delta_i = i - centro_i;
+            int delta_j = j - centro_j;
+            
+            // Define as condições para marcar com 1 conforme padrão
+            if (delta_i == -1 && delta_j == 0) {
+                matriz[i][j] = 1;
+            } else if (delta_i == 0 && (delta_j >= -1 && delta_j <= 1)) {
+                matriz[i][j] = 1;
+            } else if (delta_i == 1 && delta_j == 0) {
+                matriz[i][j] = 1;
+            }
+        }
+    }
+}
+
+void desenharCruz(int matriz[SIZE][SIZE], int centro_i, int centro_j) {
+    // Percorre todas as posições do tabuleiro
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            int delta_i = i - centro_i;
+            int delta_j = j - centro_j;
+            
+            // Define as condições para marcar as áreas afetadas na Cruz
+            if (delta_i == -1 && delta_j == 0) {
+                matriz[i][j] = 1;
+            } else if (delta_i == 0 && (delta_j >= -2 && delta_j <= 2)) {
+                matriz[i][j] = 1;
+            } else if (delta_i == 1 && delta_j == 0) {
+                matriz[i][j] = 1;
+            }
+        }
+    }
+}
 
 int main() {
-    // Nível Novato - Posicionamento dos Navios
-    // Sugestão: Declare uma matriz bidimensional para representar o tabuleiro (Ex: int tabuleiro[5][5];).
-    // Sugestão: Posicione dois navios no tabuleiro, um verticalmente e outro horizontalmente.
-    // Sugestão: Utilize `printf` para exibir as coordenadas de cada parte dos navios.
-
-    // Nível Aventureiro - Expansão do Tabuleiro e Posicionamento Diagonal
-    // Sugestão: Expanda o tabuleiro para uma matriz 10x10.
-    // Sugestão: Posicione quatro navios no tabuleiro, incluindo dois na diagonal.
-    // Sugestão: Exiba o tabuleiro completo no console, mostrando 0 para posições vazias e 3 para posições ocupadas.
-
-    // Nível Mestre - Habilidades Especiais com Matrizes
-    // Sugestão: Crie matrizes para representar habilidades especiais como cone, cruz, e octaedro.
-    // Sugestão: Utilize estruturas de repetição aninhadas para preencher as áreas afetadas por essas habilidades no tabuleiro.
-    // Sugestão: Exiba o tabuleiro com as áreas afetadas, utilizando 0 para áreas não afetadas e 1 para áreas atingidas.
-
-    // Exemplos de exibição das habilidades:
-    // Exemplo para habilidade em cone:
-    // 0 0 1 0 0
-    // 0 1 1 1 0
-    // 1 1 1 1 1
+    int tabuleiro[SIZE][SIZE];  
+    int centroLinha = 5;         
+    int centroColuna = 5;        
     
-    // Exemplo para habilidade em octaedro:
-    // 0 0 1 0 0
-    // 0 1 1 1 0
-    // 0 0 1 0 0
-
-    // Exemplo para habilidade em cruz:
-    // 0 0 1 0 0
-    // 1 1 1 1 1
-    // 0 0 1 0 0
-
+    // Desenhar e exibir o padrão Cone
+    inicializarMatriz(tabuleiro);                
+    desenharCone(tabuleiro, centroLinha, centroColuna);  
+    printf("Padrão Cone:\n");
+    imprimirMatriz(tabuleiro);                  
+    
+    // Desenhar e exibir o padrão Octaedro
+    inicializarMatriz(tabuleiro);
+    desenharOctaedro(tabuleiro, centroLinha, centroColuna);
+    printf("Padrão Octaedro:\n");
+    imprimirMatriz(tabuleiro);
+    
+    // Desenhar e exibir o padrão Cruz
+    inicializarMatriz(tabuleiro);
+    desenharCruz(tabuleiro, centroLinha, centroColuna);
+    printf("Padrão Cruz:\n");
+    imprimirMatriz(tabuleiro);
+    
     return 0;
 }
